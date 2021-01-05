@@ -1,0 +1,5 @@
+/node_modules
+/lib
+/*.code-workspace
+/.vscode
+/coverage

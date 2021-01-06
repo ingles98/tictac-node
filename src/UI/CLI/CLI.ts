@@ -15,14 +15,14 @@ export default class CLI implements ITicTacUI {
         positiveChoices = ["y", "yes"],
         negativeChoices = ["n", "no"]
     ) {
-        function isAffirmitiveAnswer (answer: string, choices: string[]): boolean {
+        function isAffirmativeAnswer (answer: string, choices: string[]): boolean {
             return choices.includes(answer.toLowerCase())
         }
         function isNegativeAnswer (answer: string, choices: string[]): boolean {
             return choices.includes(answer.toLowerCase())
         }
         function isValidAnswer (answer: string, positiveChoices: string[], negativeChoices: string[]): boolean {
-            return isAffirmitiveAnswer(answer, positiveChoices) || isNegativeAnswer(answer, negativeChoices)
+            return isAffirmativeAnswer(answer, positiveChoices) || isNegativeAnswer(answer, negativeChoices)
         }
 
         while (true) {
@@ -31,7 +31,7 @@ export default class CLI implements ITicTacUI {
                 console.clear()
                 console.error(`Invalid response: "${answer}" - Valid answers: Y/N`)
             } else {
-                const isAffirmative = isAffirmitiveAnswer(answer, positiveChoices)
+                const isAffirmative = isAffirmativeAnswer(answer, positiveChoices)
                 const isNegative = isNegativeAnswer(answer, negativeChoices)
                 if ((isAffirmative && isAffirmative) || (!isAffirmative && !isNegative)) {
                     throw "Invalid affirmative/negative choices!"

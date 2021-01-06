@@ -47,16 +47,16 @@ export default class TicTacToe {
         var lastChar: ValidCharOrEmpty | '' = '';
         for (let index = 0; index < 3; index++) {
             var char = this.board.getPos(new Point2D(col, index));
-            if (char == ' ') {
+            if (char == ValidCharacters.Empty) {
                 return char;
             } else if (!lastChar && (char as ValidChar)) {
                 lastChar = char;
                 continue;
             } else if (char != lastChar) {
-                return ' ';
+                return ValidCharacters.Empty;
             }
         }
-        if (!lastChar) lastChar = ' ';
+        if (!lastChar) lastChar = ValidCharacters.Empty;
         return lastChar;
     }
 
@@ -68,16 +68,16 @@ export default class TicTacToe {
         var lastChar: ValidCharOrEmpty | '' = '';
         for (let index = 0; index < 3; index++) {
             var char = this.board.getPos(new Point2D(index, row));
-            if (char == ' ') {
+            if (char == ValidCharacters.Empty) {
                 return char;
             } else if (!lastChar && (char as ValidChar)) {
                 lastChar = char;
                 continue;
             } else if (char != lastChar) {
-                return ' ';
+                return ValidCharacters.Empty;
             }
         }
-        if (!lastChar) lastChar = ' ';
+        if (!lastChar) lastChar = ValidCharacters.Empty;
         return lastChar;
     }
 
@@ -91,16 +91,16 @@ export default class TicTacToe {
         var lastChar: ValidCharOrEmpty | '' = '';
         for (let index = 0; index < 3; index++) {
             var char = this.board.getPos(new Point2D(inverted ? 2 - index : index, index));
-            if (char == ' ') {
+            if (char == ValidCharacters.Empty) {
                 return char;
             } else if (!lastChar && (char as ValidChar)) {
                 lastChar = char;
                 continue;
             } else if (char != lastChar) {
-                return ' ';
+                return ValidCharacters.Empty;
             }
         }
-        if (!lastChar) lastChar = ' ';
+        if (!lastChar) lastChar = ValidCharacters.Empty;
         return lastChar;
     }
 
@@ -110,22 +110,22 @@ export default class TicTacToe {
      * Checks whether the game is over AND processes the game logic for the win.
      */
     private checkWinCondition(): boolean {
-        var won: ValidCharOrEmpty = ' ';
+        var won: ValidCharOrEmpty = ValidCharacters.Empty;
 
         for (let index = 0; index < 3; index++) {
             var resultCol = this.checkWinColumn(index);
-            if (resultCol != ' ') {
+            if (resultCol != ValidCharacters.Empty) {
                 won = resultCol;
                 continue;
             }
             var resultRow = this.checkWinRow(index);
-            if (resultRow != ' ') {
+            if (resultRow != ValidCharacters.Empty) {
                 won = resultRow;
                 continue;
             }
         }
 
-        if (won == ' ') {
+        if (won == ValidCharacters.Empty) {
             var resultDiag = this.checkWinDiagonal(true);
             if (resultDiag as ValidChar) {
                 won = resultDiag;
@@ -136,7 +136,7 @@ export default class TicTacToe {
             }
         }
 
-        if (won != ' ') {
+        if (won != ValidCharacters.Empty) {
             this.UI.onGameOver(won, this.board);
             this._isPlaying = false;
             return true;
@@ -162,7 +162,7 @@ export default class TicTacToe {
             var emptyPositions: Point2D[] = [];
             this.board.boardArray.forEach((rowArray, y) => {
                 rowArray.forEach((char, x) => {
-                    if (char == ' ') emptyPositions.push(new Point2D(x, y));
+                    if (char == ValidCharacters.Empty) emptyPositions.push(new Point2D(x, y));
                 });
             });
             const randomEmptySpace = emptyPositions[Math.floor(Math.random() * emptyPositions.length)];

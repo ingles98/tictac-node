@@ -1,6 +1,6 @@
 import readlineSync from 'readline-sync';
 import TicTacBoard from '../../core/TicTacBoard';
-import { ITicTacUI, Point2D, ValidChar } from '../../core/Types';
+import { ITicTacUI, Point2D, ValidChar, ValidCharacters } from '../../core/Types';
 
 export default class CLI implements ITicTacUI {
     /**
@@ -118,7 +118,7 @@ export default class CLI implements ITicTacUI {
         while (true) {
             var valid = false;
             const pos = CLI.promptPos(`Player ${char}`);
-            if (board.getPos(pos) == ' ') {
+            if (board.getPos(pos) == ValidCharacters.Empty) {
                 board.setPos(char, pos);
                 valid = true;
             } else {

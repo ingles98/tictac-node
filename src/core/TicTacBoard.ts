@@ -1,4 +1,4 @@
-import { Point2D, ValidCharOrEmpty } from './Types';
+import { Point2D, ValidCharacters, ValidCharOrEmpty } from './Types';
 
 /**
  * The representation of the game's board.
@@ -23,7 +23,7 @@ export default class TicTacBoard {
         for (let y = 0; y < 3; y++) {
             var yArray: ValidCharOrEmpty[] = [];
             for (let x = 0; x < 3; x++) {
-                yArray.push(' ');
+                yArray.push(ValidCharacters.Empty);
             }
             this.array.push(yArray);
         }
@@ -50,7 +50,7 @@ export default class TicTacBoard {
      * @param pos Target position.
      */
     public clearPos(pos: Point2D) {
-        this.setPos(' ', pos);
+        this.setPos(ValidCharacters.Empty, pos);
     }
 
     /**

@@ -1,20 +1,20 @@
-import TicTacBoard from "./TicTacBoard"
-import { ValidCharOrEmpty, ValidChar, ValidCharacters, ITicTacUI, Point2D } from "./Types"
+import TicTacBoard from './TicTacBoard';
+import { ValidCharOrEmpty, ValidChar, ValidCharacters, ITicTacUI, Point2D } from './Types';
 
 export default class TicTacToe {
-    private _useAI: boolean = false
-    private _isPlaying: boolean = false
+    private _useAI: boolean = false;
+    private _isPlaying: boolean = false;
 
-    private static player1 = ValidCharacters.Cross
-    private static player2 = ValidCharacters.Circle
-    private board: TicTacBoard
-    private UI: ITicTacUI
+    private static player1 = ValidCharacters.Cross;
+    private static player2 = ValidCharacters.Circle;
+    private board: TicTacBoard;
+    private UI: ITicTacUI;
 
     /**
      * Whether this game is currently active or not.
      */
     public get isActive() {
-        return this._isPlaying
+        return this._isPlaying;
     }
 
     /**
@@ -22,8 +22,8 @@ export default class TicTacToe {
      * @param ui The user interface to be used.
      */
     constructor(ui: ITicTacUI) {
-        this.board = new TicTacBoard()
-        this.UI = ui
+        this.board = new TicTacBoard();
+        this.UI = ui;
     }
 
     /**
@@ -31,9 +31,9 @@ export default class TicTacToe {
      * @param useAI Whether to use AI or player versus player. *(Default: false - PvP)*
      */
     public start(useAI: boolean = false) {
-        this._useAI = useAI
-        this._isPlaying = true
-        this.loop()
+        this._useAI = useAI;
+        this._isPlaying = true;
+        this.loop();
     }
 
     // Internal win condition checks
@@ -41,67 +41,67 @@ export default class TicTacToe {
 
     /**
      * Checks if the specified collumn is currently under a win condition.
-     * @param col 
+     * @param col
      */
     private checkWinColumn(col: number): ValidCharOrEmpty {
-        var lastChar: ValidCharOrEmpty | "" = ""
+        var lastChar: ValidCharOrEmpty | '' = '';
         for (let index = 0; index < 3; index++) {
-            var char = this.board.getPos(new Point2D(col, index))
-            if (char == " ") {
-                return char
-            } else if (!lastChar && char as ValidChar) {
-                lastChar = char
-                continue
+            var char = this.board.getPos(new Point2D(col, index));
+            if (char == ' ') {
+                return char;
+            } else if (!lastChar && (char as ValidChar)) {
+                lastChar = char;
+                continue;
             } else if (char != lastChar) {
-                return " "
+                return ' ';
             }
         }
-        if (! lastChar) lastChar = " "
-        return lastChar
+        if (!lastChar) lastChar = ' ';
+        return lastChar;
     }
 
     /**
      * Checks if the specified row is currently under a win condition.
-     * @param row 
+     * @param row
      */
     private checkWinRow(row: number): ValidCharOrEmpty {
-        var lastChar: ValidCharOrEmpty | "" = ""
+        var lastChar: ValidCharOrEmpty | '' = '';
         for (let index = 0; index < 3; index++) {
-            var char = this.board.getPos(new Point2D(index, row))
-            if (char == " ") {
-                return char
-            } else if (!lastChar && char as ValidChar) {
-                lastChar = char
-                continue
+            var char = this.board.getPos(new Point2D(index, row));
+            if (char == ' ') {
+                return char;
+            } else if (!lastChar && (char as ValidChar)) {
+                lastChar = char;
+                continue;
             } else if (char != lastChar) {
-                return " "
+                return ' ';
             }
         }
-        if (! lastChar) lastChar = " "
-        return lastChar
+        if (!lastChar) lastChar = ' ';
+        return lastChar;
     }
 
     /**
      * Checks if the specified diagonal is currently under a win condition.
      * @param inverted Whether to check the decreasing diagonal (false) or the increasing one (true)
-     * 
+     *
      * *(TODO: Inverted is perhaps not the best name for this.)*
      */
     private checkWinDiagonal(inverted: boolean = false): ValidCharOrEmpty {
-        var lastChar: ValidCharOrEmpty | "" = ""
+        var lastChar: ValidCharOrEmpty | '' = '';
         for (let index = 0; index < 3; index++) {
-            var char = this.board.getPos(new Point2D(inverted? 2 - index : index, index))
-            if (char == " ") {
-                return char
-            } else if (!lastChar && char as ValidChar) {
-                lastChar = char
-                continue
+            var char = this.board.getPos(new Point2D(inverted ? 2 - index : index, index));
+            if (char == ' ') {
+                return char;
+            } else if (!lastChar && (char as ValidChar)) {
+                lastChar = char;
+                continue;
             } else if (char != lastChar) {
-                return " "
+                return ' ';
             }
         }
-        if (! lastChar) lastChar = " "
-        return lastChar
+        if (!lastChar) lastChar = ' ';
+        return lastChar;
     }
 
     // END Internal win condition checks
@@ -110,85 +110,85 @@ export default class TicTacToe {
      * Checks whether the game is over AND processes the game logic for the win.
      */
     private checkWinCondition(): boolean {
-        var won: ValidCharOrEmpty = " "
+        var won: ValidCharOrEmpty = ' ';
 
         for (let index = 0; index < 3; index++) {
-            var resultCol = this.checkWinColumn(index)
-            if (resultCol != " ") {
-                won = resultCol
-                continue
+            var resultCol = this.checkWinColumn(index);
+            if (resultCol != ' ') {
+                won = resultCol;
+                continue;
             }
-            var resultRow = this.checkWinRow(index)
-            if (resultRow != " ") {
-                won = resultRow
-                continue
+            var resultRow = this.checkWinRow(index);
+            if (resultRow != ' ') {
+                won = resultRow;
+                continue;
             }
         }
 
-        if ( won ==  " " ) {
-            var resultDiag = this.checkWinDiagonal(true)
+        if (won == ' ') {
+            var resultDiag = this.checkWinDiagonal(true);
             if (resultDiag as ValidChar) {
-                won = resultDiag
+                won = resultDiag;
             }
-            var resultDiagInv = this.checkWinDiagonal(false)
+            var resultDiagInv = this.checkWinDiagonal(false);
             if (resultDiagInv as ValidChar) {
-                won = resultDiagInv
+                won = resultDiagInv;
             }
         }
 
-        if (won != " ") {
-            this.UI.onGameOver(won, this.board)
-            this._isPlaying = false
-            return true
+        if (won != ' ') {
+            this.UI.onGameOver(won, this.board);
+            this._isPlaying = false;
+            return true;
         }
-        return false
+        return false;
     }
 
     /**
      * Notifies the UI that the game has been updated.
      */
     private updateRenderer() {
-        this.UI.update(this.board)
+        this.UI.update(this.board);
     }
 
     /**
      * Returns true if player has won.
-     * @param playerChar 
+     * @param playerChar
      */
     private promptPlayer(playerChar: ValidChar): boolean {
         if (playerChar == TicTacToe.player2 && this._useAI) {
             // AI - Just random placement.
 
-            var emptyPositions: Point2D[] = []
+            var emptyPositions: Point2D[] = [];
             this.board.boardArray.forEach((rowArray, y) => {
                 rowArray.forEach((char, x) => {
-                    if (char == " ") emptyPositions.push(new Point2D(x, y))
-                })
-            })
+                    if (char == ' ') emptyPositions.push(new Point2D(x, y));
+                });
+            });
             const randomEmptySpace = emptyPositions[Math.floor(Math.random() * emptyPositions.length)];
 
-            this.board.setPos(TicTacToe.player2, randomEmptySpace)
-            this.checkWinCondition()
+            this.board.setPos(TicTacToe.player2, randomEmptySpace);
+            this.checkWinCondition();
         } else {
-            this.UI.promptGameRound(playerChar, this.board)
+            this.UI.promptGameRound(playerChar, this.board);
         }
-        return this.checkWinCondition()
+        return this.checkWinCondition();
     }
 
     /**
      * The game's loop.
      */
     private loop() {
-        while (this._isPlaying){
-            this.updateRenderer()
+        while (this._isPlaying) {
+            this.updateRenderer();
 
-            if (this.promptPlayer(TicTacToe.player1)) break
+            if (this.promptPlayer(TicTacToe.player1)) break;
 
-            this.updateRenderer()
+            this.updateRenderer();
 
-            if (this.promptPlayer(TicTacToe.player2)) break
+            if (this.promptPlayer(TicTacToe.player2)) break;
 
-            this.updateRenderer()
+            this.updateRenderer();
         }
     }
 }

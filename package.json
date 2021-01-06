@@ -14,7 +14,7 @@
     "lint": "",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
+    "preversion": "",
     "version": "npm run format && git add -A src && npm run updatereadme && npm run typedoc"
   },
   "repository": {
